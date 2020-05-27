@@ -1,12 +1,13 @@
 package jhcool1988.spring.mvc.controller;
 
+import jhcool1988.spring.mvc.service.MemberService;
+import jhcool1988.spring.mvc.vo.MemberVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import siestageek.spring.mvc.service.MemberService;
-import siestageek.spring.mvc.vo.MemberVO;
+
 
 @Controller
 public class JoinController {
