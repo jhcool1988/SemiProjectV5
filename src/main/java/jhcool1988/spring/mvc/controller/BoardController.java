@@ -1,12 +1,15 @@
 package jhcool1988.spring.mvc.controller;
 
+import jhcool1988.spring.mvc.service.BoardService;
+import jhcool1988.spring.mvc.vo.BoardVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import siestageek.spring.mvc.service.BoardService;
-import siestageek.spring.mvc.vo.BoardVO;
+
+import java.util.ArrayList;
+
 
 @Controller
 public class BoardController {
@@ -22,10 +25,15 @@ public class BoardController {
     @RequestMapping(value = "/board/list")
     public ModelAndView list() {
 
+
         ModelAndView mv = new ModelAndView();
         mv.setViewName("layout/layout"); // 뷰이름 지정
 
         mv.addObject("action", "../board/list.jsp");
+
+        // 목록 불러오기
+        ArrayList<BoardVO> bdlist = bsrv.showBoard();
+        mv.addObject("bdlist", bdlist);
 
         return mv;
     }
@@ -53,12 +61,15 @@ public class BoardController {
 
     // 본문보기
     @RequestMapping(value = "/board/view")
-    public ModelAndView view() {
+    public ModelAndView view(String bno) {
 
         ModelAndView mv = new ModelAndView();
-        mv.setViewName("layout/layout"); // 뷰이름 지정
 
+        mv.setViewName("layout/layout"); // 뷰이름 지정
         mv.addObject("action", "../board/view.jsp");
+
+        BoardVO b = bsrv.showOneBoard(bno);
+        mv.addObject("b", b);
 
         return mv;
     }

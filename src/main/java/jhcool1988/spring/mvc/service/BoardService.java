@@ -1,9 +1,10 @@
 package jhcool1988.spring.mvc.service;
 
+import jhcool1988.spring.mvc.dao.BoardDAO;
+import jhcool1988.spring.mvc.vo.BoardVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import siestageek.spring.mvc.dao.BoardDAO;
-import siestageek.spring.mvc.vo.BoardVO;
+
 
 import java.util.ArrayList;
 
@@ -30,7 +31,7 @@ public class BoardService {
     }
 
     public ArrayList<BoardVO> showBoard() {
-        return bdao.selectBoard();
+        return (ArrayList<BoardVO>)bdao.selectBoard();
     }
 
     public BoardVO showOneBoard(String bno) {

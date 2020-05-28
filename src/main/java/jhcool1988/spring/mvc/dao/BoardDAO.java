@@ -1,11 +1,16 @@
 package jhcool1988.spring.mvc.dao;
 
+import jhcool1988.spring.mvc.vo.BoardVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import siestageek.spring.mvc.vo.BoardVO;
 
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 @Repository("bdao")
 public class BoardDAO {
@@ -39,8 +44,14 @@ public class BoardDAO {
 
     // 게시판데이터 중에서 글번호/제목/작성자/작성일/추천/조회만
     // 골라서 동적배열에 담아 반환함
-    public ArrayList<BoardVO> selectBoard() {
-        return null;
+    // 스프링에서는 RowMapper라는 클래스를 이용해서
+    // select문의 결과를 처리할 수 있음
+    public List<BoardVO> selectBoard() {
+        String sql = "select bno,title,userid,regdate,thumbup,views from board order by bno desc";
+
+        RowMapper<BoardVO> mapper = new BoardRowMapper();
+
+        return jdbcTemplate.query(sql, mapper);
     }
 
     // 글번호로 선택한 게시물에 대해 모든 컬럼을 조회해서
@@ -49,4 +60,23 @@ public class BoardDAO {
         return null;
     }
 
+    // selectBoard의 RowMapper 내부 클래스
+    private class BoardRowMapper implements RowMapper<BoardVO> {
+
+        @Override
+        public BoardVO mapRow(ResultSet rs, int num) throws SQLException {
+            BoardVO bvo = new BoardVO(
+                    rs.getString("bno"),
+                    rs.getString("title"),
+                    rs.getString("userid"),
+                    rs.getString("regdate"),
+                    rs.getString("thumbup"),
+                    rs.getString("views"),
+                    null
+            );
+
+            return bvo;
+
+        }
+    }
 }
